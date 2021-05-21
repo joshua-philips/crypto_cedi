@@ -14,7 +14,7 @@ ThemeData light = ThemeData(
   primarySwatch: Colors.yellow,
   primaryColor: Color(0xffedb532),
   accentColor: Color(0xff413b2c),
-  scaffoldBackgroundColor: Color(0xffedb532),
+  scaffoldBackgroundColor: Colors.white, // Color(0xffedb532),
   textTheme: TextTheme(
     bodyText2: TextStyle(
       color: Colors.black,
@@ -22,7 +22,7 @@ ThemeData light = ThemeData(
   ),
   appBarTheme: AppBarTheme(
     elevation: 0,
-    backgroundColor: Color(0xffedb532),
+    backgroundColor: Colors.white,
     iconTheme: IconThemeData(
       color: Colors.black,
     ),
@@ -42,6 +42,7 @@ ThemeData light = ThemeData(
   ),
   cardTheme: CardTheme(
     elevation: 0.5,
+    color: Color(0xffedb532),
   ),
 );
 

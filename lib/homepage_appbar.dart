@@ -10,17 +10,19 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'Crypto Cedi',
-          style: TextStyle(fontSize: 30),
-        ),
-        SearchTextField(
-          controller: controller,
-        ),
-      ],
+    return SafeArea(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Crypto Cedi',
+            style: TextStyle(fontSize: 30),
+          ),
+          SearchTextField(
+            controller: controller,
+          ),
+        ],
+      ),
     );
   }
 
@@ -35,7 +37,8 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      padding:
+          const EdgeInsets.only(left: 15.0, right: 15, top: 10.0, bottom: 0),
       child: TextField(
         controller: controller,
         cursorColor: Colors.black,

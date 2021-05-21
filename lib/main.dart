@@ -27,8 +27,7 @@ class MyApp extends StatelessWidget {
             title: 'Crypto Cedi',
             debugShowCheckedModeBanner: false,
             theme: light,
-            home: HomePage(
-            ),
+            home: HomePage(),
           );
         },
       ),
