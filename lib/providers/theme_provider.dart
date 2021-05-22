@@ -8,15 +8,17 @@
 // #000000 - Black
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 ThemeData light = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.yellow,
-  primaryColor: Color(0xffedb532),
+  primaryColor: Colors.yellow[200], // Color(0xffedb532),
   accentColor: Color(0xff413b2c),
   scaffoldBackgroundColor: Colors.white, // Color(0xffedb532),
   textTheme: TextTheme(
-    bodyText2: TextStyle(
+    bodyText2: GoogleFonts.raleway(
       color: Colors.black,
     ),
   ),
@@ -42,16 +44,19 @@ ThemeData light = ThemeData(
   ),
   cardTheme: CardTheme(
     elevation: 0.5,
-    color: Color(0xffedb532),
+    color: Colors.grey[200],
   ),
 );
 
 ThemeData dark = ThemeData(
   brightness: Brightness.dark,
-  primarySwatch: Colors.red,
-  accentColor: Colors.redAccent,
+  primarySwatch: Colors.yellow,
+  accentColor: Color(0xffedb532),
+  scaffoldBackgroundColor: Color(0Xff1c1b1a),
   textTheme: TextTheme(
-    bodyText2: TextStyle(color: Colors.white),
+    bodyText2: GoogleFonts.raleway(
+      color: Colors.white,
+    ),
   ),
   appBarTheme: AppBarTheme(
     elevation: 0,
@@ -69,6 +74,44 @@ ThemeData dark = ThemeData(
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     },
   ),
+  cardTheme: CardTheme(
+    elevation: 0.5,
+    color: Colors.grey[850],
+  ),
 );
 
-class ThemeNotifier extends ChangeNotifier {}
+class ThemeNotifier extends ChangeNotifier {
+  final String prefKey = 'theme';
+  SharedPreferences _sharedPreferences;
+  bool _darkTheme;
+  bool get darkTheme => _darkTheme;
+
+  ThemeNotifier() {
+    initPrefs();
+    _darkTheme = false;
+    loadFromPrefs();
+  }
+
+  Future initPrefs() async {
+    if (_sharedPreferences == null) {
+      _sharedPreferences = await SharedPreferences.getInstance();
+    }
+  }
+
+  Future loadFromPrefs() async {
+    await initPrefs();
+    _darkTheme = _sharedPreferences.getBool(prefKey) ?? false;
+    notifyListeners();
+  }
+
+  Future saveToPrefs() async {
+    await initPrefs();
+    _sharedPreferences.setBool(prefKey, _darkTheme);
+  }
+
+  toggleTheme() {
+    _darkTheme = !_darkTheme;
+    saveToPrefs();
+    notifyListeners();
+  }
+}

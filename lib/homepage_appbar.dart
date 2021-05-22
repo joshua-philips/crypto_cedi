@@ -1,4 +1,6 @@
+import 'package:crypto_cedi/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
@@ -14,9 +16,26 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Crypto Cedi',
-            style: TextStyle(fontSize: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(),
+              Text(
+                'Crypto Cedi',
+                style: TextStyle(fontSize: 20),
+              ),
+              Spacer(),
+              Text('Dark Mode'),
+              Consumer<ThemeNotifier>(
+                builder: (context, notifier, child) => Switch(
+                  value: notifier.darkTheme,
+                  activeColor: Theme.of(context).accentColor,
+                  onChanged: (value) {
+                    notifier.toggleTheme();
+                  },
+                ),
+              ),
+            ],
           ),
           SearchTextField(
             controller: controller,
@@ -38,7 +57,7 @@ class SearchTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          const EdgeInsets.only(left: 15.0, right: 15, top: 10.0, bottom: 0),
+          const EdgeInsets.only(left: 15.0, right: 15, top: 5.0, bottom: 0),
       child: TextField(
         controller: controller,
         cursorColor: Colors.black,
@@ -47,7 +66,7 @@ class SearchTextField extends StatelessWidget {
           fillColor: Colors.grey.shade200,
           suffixIcon: Icon(Icons.search),
           floatingLabelBehavior: FloatingLabelBehavior.never,
-          hintText: 'Search',
+          hintText: 'Search coin name, symbol',
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(30),

@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HomePageAppBar(
-        height: 100,
+        height: 101,
         controller: searchController,
       ),
       body: FutureBuilder(
@@ -140,7 +140,7 @@ class CryptoCard extends StatelessWidget {
           contentPadding: EdgeInsets.only(left: 8, right: 16),
           leading: CircleAvatar(
             foregroundImage: NetworkImage(cryptocurrency.image),
-            radius: 40,
+            radius: 35,
           ),
           title: Text(
             cryptocurrency.name,

@@ -4,16 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ThemeNotifier>(
-          create: (_) => ThemeNotifier(),
-        ),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +17,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Crypto Cedi',
             debugShowCheckedModeBanner: false,
-            theme: light,
+            theme: notifier.darkTheme ? dark : light,
             home: HomePage(),
           );
         },
