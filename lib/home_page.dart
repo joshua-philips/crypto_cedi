@@ -158,7 +158,7 @@ class CryptoCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '${(cryptocurrency.priceChangePercentage24h.toStringAsFixed(2))} %',
+                    '${(cryptocurrency.priceChangePercentage24h?.toStringAsFixed(2))} %',
                   ),
                 ],
               ),
