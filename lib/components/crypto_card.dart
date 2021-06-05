@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:crypto_cedi/models/cryptocurrency.dart';
 import 'package:flutter/material.dart';
 
@@ -5,10 +7,22 @@ class CryptoCard extends StatelessWidget {
   final Cryptocurrency cryptocurrency;
   final double cediExchangeRate;
 
-  const CryptoCard({Key key, this.cryptocurrency, this.cediExchangeRate})
+  CryptoCard({Key key, this.cryptocurrency, this.cediExchangeRate})
       : super(key: key);
+
+  final List<Color> colors = [
+    Colors.yellow,
+    Colors.blue,
+    Colors.black,
+    Colors.red,
+    Colors.orange,
+    Colors.green,
+    Colors.white,
+  ];
+
   @override
   Widget build(BuildContext context) {
+    Random random = Random.secure();
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -18,6 +32,7 @@ class CryptoCard extends StatelessWidget {
         child: ListTile(
           contentPadding: EdgeInsets.only(left: 8, right: 16),
           leading: CircleAvatar(
+            backgroundColor: colors[random.nextInt(colors.length)],
             foregroundImage: NetworkImage(cryptocurrency.image),
             radius: 35,
           ),
