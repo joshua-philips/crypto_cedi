@@ -1,4 +1,4 @@
-import 'package:crypto_cedi/home_page.dart';
+import 'package:crypto_cedi/pages/home_page.dart';
 import 'package:crypto_cedi/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
