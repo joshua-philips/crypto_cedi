@@ -51,18 +51,20 @@ class _HomePageState extends State<HomePage> {
 
   /// Load the cryptos from api
   Future getCryptos() async {
-    // TODO: Get more pages from api
-    String cryptoUrl =
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false';
-    Response response = await Dio().get(cryptoUrl);
-    List results = response.data;
+    List<Cryptocurrency> loaded = [];
+    for (int count = 1; count <= 8; count++) {
+      String cryptoUrl =
+          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=$count&sparkline=false';
+      Response response = await Dio().get(cryptoUrl);
+      List results = response.data;
+      results.forEach((element) {
+        loaded.add(Cryptocurrency.fromJson(element));
+      });
+    }
 
     setState(() {
-      results.forEach((element) {
-        cryptos.add(Cryptocurrency.fromJson(element));
-      });
-
-      searchResults.addAll(cryptos);
+      cryptos.addAll(loaded);
+      searchResults.addAll(loaded);
     });
   }
 
@@ -109,7 +111,11 @@ class _HomePageState extends State<HomePage> {
   Widget setBody() {
     if (cryptos.length > 0) {
       return RefreshIndicator(
-        onRefresh: loadData,
+        onRefresh: () async {
+          cryptos.clear();
+          searchResults.clear();
+          await loadData();
+        },
         child: ListView.builder(
           itemCount: searchResults.length,
           physics: BouncingScrollPhysics(),
