@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
 
   /// Load the cryptos from api
   Future getCryptos() async {
+    // TODO: Get more pages from api
     String cryptoUrl =
         'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false';
     Response response = await Dio().get(cryptoUrl);
@@ -122,7 +123,27 @@ class _HomePageState extends State<HomePage> {
       );
     } else if (dataError) {
       return Center(
-        child: Text('Error'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Error',
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 5),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).accentColor),
+              child: Text(
+                'Reload',
+                style: TextStyle(fontWeight: FontWeight.w300),
+              ),
+              onPressed: () {
+                loadData();
+              },
+            ),
+          ],
+        ),
       );
     } else {
       return Center(

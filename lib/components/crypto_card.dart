@@ -10,18 +10,18 @@ class CryptoCard extends StatelessWidget {
   CryptoCard({Key key, this.cryptocurrency, this.cediExchangeRate})
       : super(key: key);
 
-  final List<Color> colors = [
-    Colors.yellow,
-    Colors.blue,
-    Colors.black,
-    Colors.red,
-    Colors.orange,
-    Colors.green,
-    Colors.white,
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Color> colors = [
+      Colors.yellow,
+      Colors.blue,
+      Colors.black,
+      Colors.red,
+      Colors.orange,
+      Colors.green,
+      Colors.white,
+      Theme.of(context).accentColor
+    ];
     Random random = Random.secure();
     return Card(
       shape: RoundedRectangleBorder(
@@ -47,24 +47,27 @@ class CryptoCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              SizedBox(height: 5),
               Text(
                 '¢${(cryptocurrency.currentPrice * cediExchangeRate).toStringAsFixed(2)}',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 16),
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '${(cryptocurrency.priceChangePercentage24h?.toStringAsFixed(2))} %',
+                    '${(cryptocurrency.priceChangePercentage24h?.toStringAsFixed(2))}%',
                     style: TextStyle(
-                      color: cryptocurrency.priceChangePercentage24h < 0
+                      color: (cryptocurrency.priceChangePercentage24h != null &&
+                              cryptocurrency.priceChangePercentage24h < 0)
                           ? Colors.red
                           : Colors.green,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  cryptocurrency.priceChangePercentage24h < 0
+                  (cryptocurrency.priceChangePercentage24h != null &&
+                          cryptocurrency.priceChangePercentage24h < 0)
                       ? Icon(Icons.arrow_drop_down, color: Colors.red, size: 30)
                       : Icon(Icons.arrow_drop_up,
                           color: Colors.green, size: 30),
