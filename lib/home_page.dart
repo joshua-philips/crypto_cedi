@@ -13,27 +13,23 @@ class _HomePageState extends State<HomePage> {
   List<Cryptocurrency> cryptos = [];
   List<Cryptocurrency> searchResults = [];
   double cediExchangeRate = 0;
-  Future gotData;
+  bool dataError = false;
 
   @override
   void initState() {
     super.initState();
-    searchController.addListener(onSearchChanged);
-    gotData = loadData();
+    searchController.addListener(searchCryptos);
+    loadData();
   }
 
   @override
   void dispose() {
-    searchController.removeListener(onSearchChanged);
+    searchController.removeListener(searchCryptos);
     searchController.dispose();
     super.dispose();
   }
 
-  onSearchChanged() {
-    searchCryptos();
-  }
-
-  searchCryptos() {
+  void searchCryptos() {
     List<Cryptocurrency> showResults = [];
     if (searchController.text.isNotEmpty) {
       cryptos.forEach((element) {
@@ -47,36 +43,48 @@ class _HomePageState extends State<HomePage> {
     } else {
       showResults = List.from(cryptos);
     }
-
     setState(() {
       searchResults = showResults;
     });
   }
 
-  getCryptos() async {
+  /// Load the cryptos from api
+  Future getCryptos() async {
     String cryptoUrl =
         'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false';
     Response response = await Dio().get(cryptoUrl);
     List results = response.data;
 
-    results.forEach((element) {
-      cryptos.add(Cryptocurrency.fromJson(element));
-    });
+    setState(() {
+      results.forEach((element) {
+        cryptos.add(Cryptocurrency.fromJson(element));
+      });
 
-    searchResults.addAll(cryptos);
+      searchResults.addAll(cryptos);
+    });
   }
 
-  getExchangeRate() async {
+  /// Load cedi exchange rate from api
+  Future getExchangeRate() async {
     String exchangeUrl =
         'https://api.exchangerate.host/convert?from=USD&to=GHS';
     Response response = await Dio().get(exchangeUrl);
     Map responseData = response.data;
-    cediExchangeRate = responseData['info']['rate'].toDouble();
+    setState(() {
+      cediExchangeRate = responseData['info']['rate'].toDouble();
+    });
   }
 
+  /// Load all data or catch error
   Future loadData() async {
-    await getCryptos();
-    await getExchangeRate();
+    try {
+      await getExchangeRate();
+      await getCryptos();
+    } catch (e) {
+      setState(() {
+        dataError = true;
+      });
+    }
   }
 
   @override
@@ -86,39 +94,40 @@ class _HomePageState extends State<HomePage> {
         height: 101,
         controller: searchController,
       ),
-      body: FutureBuilder(
-        future: gotData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (!snapshot.hasError) {
-              return Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                  top: 10,
-                ),
-                child: ListView.builder(
-                  itemCount: searchResults.length,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return CryptoCard(
-                      cediExchangeRate: cediExchangeRate,
-                      cryptocurrency: searchResults[index],
-                    );
-                  },
-                ),
-              );
-            } else {
-              return Center(child: Text('Error'));
-            }
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+      body: Padding(
+          padding: const EdgeInsets.only(
+            left: 10,
+            right: 10,
+            top: 10,
+          ),
+          child: setBody()),
     );
+  }
+
+  Widget setBody() {
+    if (cryptos.length > 0) {
+      return RefreshIndicator(
+        onRefresh: loadData,
+        child: ListView.builder(
+          itemCount: searchResults.length,
+          physics: BouncingScrollPhysics(),
+          itemBuilder: (context, index) {
+            return CryptoCard(
+              cediExchangeRate: cediExchangeRate,
+              cryptocurrency: searchResults[index],
+            );
+          },
+        ),
+      );
+    } else if (dataError) {
+      return Center(
+        child: Text('Error'),
+      );
+    } else {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
   }
 }
 
