@@ -17,12 +17,14 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Spacer(),
-              Text(
-                'Crypto Cedi',
-                style: TextStyle(fontSize: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 25),
+                child: Text(
+                  'Crypto Cedi',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
               Spacer(),
               Text('Dark Mode'),
@@ -61,12 +63,14 @@ class SearchTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         cursorColor: Colors.black,
+        style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.grey.shade200,
-          suffixIcon: Icon(Icons.search),
+          suffixIcon: Icon(Icons.search, color: Colors.black54),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           hintText: 'Search coin name, symbol',
+          hintStyle: TextStyle(color: Colors.black54),
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(30),

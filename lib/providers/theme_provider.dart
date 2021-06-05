@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 ThemeData light = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.yellow,
-  primaryColor: Colors.yellow[200], // Color(0xffedb532),
+  primaryColor: Colors.white, // Color(0xffedb532),
   accentColor: Color(0xff413b2c),
   scaffoldBackgroundColor: Colors.white, // Color(0xffedb532),
   textTheme: TextTheme(

@@ -27,6 +27,7 @@ class CryptoCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
+      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0, bottom: 8),
         child: ListTile(
@@ -44,16 +45,29 @@ class CryptoCard extends StatelessWidget {
           ),
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 '¢${(cryptocurrency.currentPrice * cediExchangeRate).toStringAsFixed(2)}',
+                style: TextStyle(fontSize: 18),
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     '${(cryptocurrency.priceChangePercentage24h?.toStringAsFixed(2))} %',
+                    style: TextStyle(
+                      color: cryptocurrency.priceChangePercentage24h < 0
+                          ? Colors.red
+                          : Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  cryptocurrency.priceChangePercentage24h < 0
+                      ? Icon(Icons.arrow_drop_down, color: Colors.red, size: 30)
+                      : Icon(Icons.arrow_drop_up,
+                          color: Colors.green, size: 30),
                 ],
               ),
             ],
