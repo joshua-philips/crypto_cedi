@@ -13,36 +13,38 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Text(
-                  'Crypto Cedi',
-                  style: TextStyle(fontSize: 20),
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 25),
+                  child: Text(
+                    'Crypto Cedi',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
-              ),
-              Spacer(),
-              Text('Dark Mode'),
-              Consumer<ThemeNotifier>(
-                builder: (context, notifier, child) => Switch(
-                  value: notifier.darkTheme,
-                  activeColor: Theme.of(context).accentColor,
-                  onChanged: (value) {
-                    notifier.toggleTheme();
-                  },
+                Spacer(),
+                Text('Dark Mode'),
+                Consumer<ThemeNotifier>(
+                  builder: (context, notifier, child) => Switch(
+                    value: notifier.darkTheme,
+                    activeColor: Theme.of(context).accentColor,
+                    onChanged: (value) {
+                      notifier.toggleTheme();
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SearchTextField(
-            controller: controller,
-          ),
-        ],
+              ],
+            ),
+            SearchTextField(
+              controller: controller,
+            ),
+          ],
+        ),
       ),
     );
   }

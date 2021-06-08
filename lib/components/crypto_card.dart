@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:crypto_cedi/models/cryptocurrency.dart';
 import 'package:crypto_cedi/pages/details_page.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CryptoCard extends StatelessWidget {
   final Cryptocurrency cryptocurrency;
@@ -13,17 +12,6 @@ class CryptoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Color> colors = [
-      Colors.yellow,
-      Colors.blue,
-      Colors.black,
-      Colors.red,
-      Colors.orange,
-      Colors.green,
-      Colors.white,
-      Theme.of(context).accentColor
-    ];
-    Random random = Random.secure();
     return GestureDetector(
       onTap: () {
         Route route = MaterialPageRoute(
@@ -31,6 +19,7 @@ class CryptoCard extends StatelessWidget {
                   cediExchangeRate: cediExchangeRate,
                   cryptocurrency: cryptocurrency,
                 ));
+
         Navigator.push(context, route);
       },
       child: Card(
@@ -45,8 +34,13 @@ class CryptoCard extends StatelessWidget {
             leading: Hero(
               tag: cryptocurrency.symbol,
               child: CircleAvatar(
-                backgroundColor: colors[random.nextInt(colors.length)],
-                foregroundImage: NetworkImage(cryptocurrency.image),
+                backgroundColor:
+                    Theme.of(context).brightness == Brightness.light
+                        ? Colors.grey[100]
+                        : Colors.grey[850],
+                backgroundImage: NetworkImage(
+                  cryptocurrency.image,
+                ),
                 radius: 35,
               ),
             ),
@@ -62,7 +56,7 @@ class CryptoCard extends StatelessWidget {
               children: [
                 SizedBox(height: 5),
                 Text(
-                  '¢${(cryptocurrency.currentPrice * cediExchangeRate).toStringAsFixed(2)}',
+                  '¢${NumberFormat(",000.00").format(cryptocurrency.currentPrice * cediExchangeRate)}',
                   style: TextStyle(fontSize: 16),
                 ),
                 Row(

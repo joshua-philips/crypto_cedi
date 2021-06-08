@@ -98,13 +98,7 @@ class _HomePageState extends State<HomePage> {
         height: 101,
         controller: searchController,
       ),
-      body: Padding(
-          padding: const EdgeInsets.only(
-            left: 10,
-            right: 10,
-            top: 10,
-          ),
-          child: setBody()),
+      body: setBody(),
     );
   }
 
@@ -116,15 +110,20 @@ class _HomePageState extends State<HomePage> {
           searchResults.clear();
           await loadData();
         },
-        child: ListView.builder(
-          itemCount: searchResults.length,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            return CryptoCard(
-              cediExchangeRate: cediExchangeRate,
-              cryptocurrency: searchResults[index],
-            );
-          },
+        child: Scrollbar(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+            child: ListView.builder(
+              itemCount: searchResults.length,
+              physics: BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                return CryptoCard(
+                  cediExchangeRate: cediExchangeRate,
+                  cryptocurrency: searchResults[index],
+                );
+              },
+            ),
+          ),
         ),
       );
     } else if (dataError) {
