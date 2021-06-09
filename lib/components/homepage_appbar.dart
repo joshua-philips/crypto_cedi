@@ -69,7 +69,16 @@ class SearchTextField extends StatelessWidget {
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.grey.shade200,
-          suffixIcon: Icon(Icons.search, color: Colors.black54),
+          prefixIcon: Icon(Icons.search, color: Colors.black54),
+          suffixIcon: IconButton(
+            icon: Icon(
+              Icons.close,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              controller.clear();
+            },
+          ),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           hintText: 'Search coin name, symbol',
           hintStyle: TextStyle(color: Colors.black54),

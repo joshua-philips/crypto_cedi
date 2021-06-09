@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
           cryptos.clear();
           searchResults.clear();
           await loadData();
-        },
+        }, // TODO: Return to top button
         child: Scrollbar(
           child: Padding(
             padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
