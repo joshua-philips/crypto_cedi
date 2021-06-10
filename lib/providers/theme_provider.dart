@@ -1,12 +1,3 @@
-// Crypto Cedi Colors
-// #ff3501 - Red Arrow
-// #43b41b - Green Arrow
-// #1c1b1a - Black
-// #413b2c - Brown for search
-// #707070 - Grey for crypto card
-// #edb532 - Yellow
-// #000000 - Black
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 ThemeData light = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.yellow,
-  primaryColor: Colors.white, // Color(0xffedb532),
-  accentColor: Color(0xffedb532), // Color(0xff413b2c),
-  scaffoldBackgroundColor: Colors.white, // Color(0xffedb532),
+  primaryColor: Colors.white,
+  accentColor: Color(0xffedb532),
+  scaffoldBackgroundColor: Colors.white,
   textTheme: TextTheme(
     bodyText2: GoogleFonts.raleway(
       color: Colors.black,
@@ -36,15 +27,15 @@ ThemeData light = ThemeData(
       ),
     ),
   ),
+  cardTheme: CardTheme(
+    elevation: 0.5,
+    color: Colors.grey[200],
+  ),
   pageTransitionsTheme: PageTransitionsTheme(
     builders: {
       TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     },
-  ),
-  cardTheme: CardTheme(
-    elevation: 0.5,
-    color: Colors.grey[200],
   ),
 );
 
@@ -68,15 +59,15 @@ ThemeData dark = ThemeData(
       ),
     ),
   ),
+  cardTheme: CardTheme(
+    elevation: 0.5,
+    color: Colors.grey[850],
+  ),
   pageTransitionsTheme: PageTransitionsTheme(
     builders: {
       TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     },
-  ),
-  cardTheme: CardTheme(
-    elevation: 0.5,
-    color: Colors.grey[850],
   ),
 );
 

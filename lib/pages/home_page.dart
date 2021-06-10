@@ -16,6 +16,8 @@ class _HomePageState extends State<HomePage> {
   double cediExchangeRate = 0;
   bool dataError = false;
 
+  ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +29,17 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     searchController.removeListener(searchCryptos);
     searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  /// Triggered when user presses back to top button
+  void scrollToTop() {
+    _scrollController.animateTo(
+      1,
+      curve: Curves.linear,
+      duration: Duration(seconds: 3),
+    );
   }
 
   void searchCryptos() {
@@ -52,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   /// Load the cryptos from api
   Future getCryptos() async {
     List<Cryptocurrency> loaded = [];
-    for (int count = 1; count <= 8; count++) {
+    for (int count = 1; count < 9; count++) {
       String cryptoUrl =
           'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=$count&sparkline=false';
       Response response = await Dio().get(cryptoUrl);
@@ -94,12 +106,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomePageAppBar(
-        height: 101,
-        controller: searchController,
-      ),
-      body: setBody(),
-    );
+        appBar: HomePageAppBar(
+          height: 112,
+          controller: searchController,
+        ),
+        body: setBody(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: scrollToTop,
+          mini: true,
+          child: Icon(
+            Icons.arrow_upward,
+          ),
+        ));
   }
 
   Widget setBody() {
@@ -109,20 +127,20 @@ class _HomePageState extends State<HomePage> {
           cryptos.clear();
           searchResults.clear();
           await loadData();
-        }, // TODO: Return to top button
+        },
         child: Scrollbar(
-          child: Padding(
+          controller: _scrollController,
+          child: ListView.builder(
+            physics: BouncingScrollPhysics(),
+            controller: _scrollController,
             padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-            child: ListView.builder(
-              itemCount: searchResults.length,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                return CryptoCard(
-                  cediExchangeRate: cediExchangeRate,
-                  cryptocurrency: searchResults[index],
-                );
-              },
-            ),
+            itemCount: searchResults.length,
+            itemBuilder: (context, index) {
+              return CryptoCard(
+                cediExchangeRate: cediExchangeRate,
+                cryptocurrency: searchResults[index],
+              );
+            },
           ),
         ),
       );

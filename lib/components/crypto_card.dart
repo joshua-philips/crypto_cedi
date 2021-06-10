@@ -18,7 +18,7 @@ class CryptoCard extends StatelessWidget {
             builder: (context) => DetailsPage(
                   cediExchangeRate: cediExchangeRate,
                   cryptocurrency: cryptocurrency,
-                ));
+                ),);
 
         Navigator.push(context, route);
       },
