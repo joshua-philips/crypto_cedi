@@ -1,4 +1,4 @@
 # Crypto Cedi
 
-Flutter app to display details on various cryptocurrencies mainly with cedis
+Simple flutter app to display cryptocurrency details from api
 
