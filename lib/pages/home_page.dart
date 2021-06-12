@@ -124,6 +124,7 @@ class _HomePageState extends State<HomePage> {
     if (cryptos.length > 0) {
       return RefreshIndicator(
         onRefresh: () async {
+          searchController.clear();
           cryptos.clear();
           searchResults.clear();
           await loadData();

@@ -61,6 +61,12 @@ class DetailsPage extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 5),
                           child: buildSupplyCard(),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Text(
+                              'Cryptocurrency data from coingecko.com\nCedi data from exchangerate.host'),
+                        ),
+                        Container(height: 30),
                       ],
                     ),
                   ),
